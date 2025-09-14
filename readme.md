@@ -56,8 +56,8 @@ Pagination for large datasets
 
 ## Example .env for backend only
 
-PORT=4000
-MONGO_URI=mongodb://localhost:27017/expense-tracker
-JWT_SECRET=your_jwt_secret_key
+1. PORT=4000
+2. MONGO_URI=mongodb://localhost:27017/expense-tracker
+3. JWT_SECRET=your_jwt_secret_key
 
 
