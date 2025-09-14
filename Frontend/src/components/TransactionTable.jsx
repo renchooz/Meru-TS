@@ -14,6 +14,7 @@ export default function TransactionTable() {
   const [limit] = useState(5);
   const [totalPages, setTotalPages] = useState(1);
 
+  // Applied filters (used for API call)
   const [filters, setFilters] = useState({
     search: "",
     category: "",
@@ -21,6 +22,9 @@ export default function TransactionTable() {
     fromDate: "",
     toDate: "",
   });
+
+  // Input filters (used for typing)
+  const [inputFilters, setInputFilters] = useState(filters);
 
   const [editingId, setEditingId] = useState(null);
   const [formData, setFormData] = useState({
@@ -73,36 +77,39 @@ export default function TransactionTable() {
       <div className="flex flex-wrap gap-2">
         <input
           placeholder="Search"
-          value={filters.search}
-          onChange={(e) => setFilters({ ...filters, search: e.target.value })}
+          value={inputFilters.search}
+          onChange={(e) => setInputFilters({ ...inputFilters, search: e.target.value })}
           className="border px-2 py-1 rounded dark:bg-gray-700 dark:text-white flex-1 min-w-[120px]"
         />
         <input
           placeholder="Category"
-          value={filters.category}
-          onChange={(e) => setFilters({ ...filters, category: e.target.value })}
+          value={inputFilters.category}
+          onChange={(e) => setInputFilters({ ...inputFilters, category: e.target.value })}
           className="border px-2 py-1 rounded dark:bg-gray-700 dark:text-white flex-1 min-w-[120px]"
         />
         <input
           placeholder="Payee"
-          value={filters.payee}
-          onChange={(e) => setFilters({ ...filters, payee: e.target.value })}
+          value={inputFilters.payee}
+          onChange={(e) => setInputFilters({ ...inputFilters, payee: e.target.value })}
           className="border px-2 py-1 rounded dark:bg-gray-700 dark:text-white flex-1 min-w-[120px]"
         />
         <input
           type="date"
-          value={filters.fromDate}
-          onChange={(e) => setFilters({ ...filters, fromDate: e.target.value })}
+          value={inputFilters.fromDate}
+          onChange={(e) => setInputFilters({ ...inputFilters, fromDate: e.target.value })}
           className="border px-2 py-1 rounded dark:bg-gray-700 dark:text-white"
         />
         <input
           type="date"
-          value={filters.toDate}
-          onChange={(e) => setFilters({ ...filters, toDate: e.target.value })}
+          value={inputFilters.toDate}
+          onChange={(e) => setInputFilters({ ...inputFilters, toDate: e.target.value })}
           className="border px-2 py-1 rounded dark:bg-gray-700 dark:text-white"
         />
         <button
-          onClick={() => setPage(1)}
+          onClick={() => {
+            setPage(1);
+            setFilters(inputFilters); // apply input filters
+          }}
           className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
         >
           Apply
@@ -125,10 +132,7 @@ export default function TransactionTable() {
           </thead>
           <tbody>
             {transactions.map((txn) => (
-              <tr
-                key={txn._id}
-                className="border-t border-gray-300 dark:border-gray-600"
-              >
+              <tr key={txn._id} className="border-t border-gray-300 dark:border-gray-600">
                 <td className="p-2 border dark:border-gray-600">{txn._id.slice(-6)}</td>
 
                 {editingId === txn._id ? (

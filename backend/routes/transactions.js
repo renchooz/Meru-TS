@@ -13,7 +13,7 @@ router.get("/", auth, async (req, res) => {
       page = 1,
       limit = 10,
       search = "",
-      sortBy = "date",
+      sortBy = "_id",
       order = "desc",
       fromDate,
       toDate,
@@ -38,7 +38,7 @@ router.get("/", auth, async (req, res) => {
       if (toDate) filter.date.$lte = new Date(toDate);
     }
 
-    const sortField = sortBy === "amount" ? "amount" : "date";
+    const sortField = sortBy === "amount" ? "amount" : "_id";
     const sortOrder = order === "asc" ? 1 : -1;
 
     const totalRecords = await Transaction.countDocuments(filter);
